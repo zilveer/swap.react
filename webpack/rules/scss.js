@@ -15,40 +15,38 @@ export default [
   {
     test: /\.scss$/,
     use: [
-      {
-        loader: 'style-loader',
-        options: { sourceMap: true },
-      },
+      'style-loader',
+      'cache-loader',
       {
         loader: 'css-loader',
         options: {
-          // [compile]: true,
           sourceMap: true,
           modules: true,
-          localIdentName,
-          // importLoaders: 1,
-          minimize: config.env === 'production'
         },
       },
       {
         loader: 'postcss-loader',
         options: {
           sourceMap: true,
-          plugins: () => [
-            autoprefixer(AUTOPREFIXER),
-          ],
+          postcssOptions: {
+            plugins: () => [
+              autoprefixer(AUTOPREFIXER),
+            ],
+          }
         },
       },
       {
         loader: 'sass-loader',
         options: {
           sourceMap: true,
-          data: _sccsConfig,
-          includePaths: [
-            config.paths.base('node_modules'),
-            config.paths.base('shared'),
-            config.paths.base('client'),
-          ],
+          additionalData: _sccsConfig,
+          sassOptions:{
+            includePaths: [
+              config.paths.base('node_modules'),
+              config.paths.front('shared'),
+              config.paths.front('client'),
+            ]
+          }
         },
       },
     ],

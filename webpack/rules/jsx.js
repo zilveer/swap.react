@@ -1,22 +1,24 @@
-// export default [
-//   {
-//     test: /\.(js|jsx)$/,
-//     exclude: /(node_modules|bower_components)/,
-//     use: {
-//       loader: 'babel-loader',
-//       options: {
-//         presets: ['@babel/preset-env'],
-//         plugins: ['@babel/plugin-transform-runtime'],
-//       },
-//     },
-//   },
-// ]
 export default [
   {
-    test: /\.jsx?$/,
-    exclude: /node_modules/,
-    use: {
-      loader: 'babel-loader',
-    },
+    test: /\.(js|mjs|jsx|ts|tsx)$/,
+    exclude: /(node_modules|bower_components)/,
+    use: [
+      {
+        loader: 'cache-loader',
+      },
+      {
+        loader: 'babel-loader',
+        options: {
+          presets: ['@babel/preset-env'],
+          plugins: ['@babel/plugin-proposal-object-rest-spread'],
+          cacheDirectory: true,
+        }
+      },
+    ],
+  },
+  {
+    test: /\.js$/,
+    enforce: 'pre',
+    use: ['source-map-loader'],
   },
 ]
